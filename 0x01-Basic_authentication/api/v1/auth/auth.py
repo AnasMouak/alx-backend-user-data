@@ -7,7 +7,10 @@ from flask import request
 class Auth:
     """Auth class"""
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """returns False - path"""
+        """
+        returns True if the path is not in the
+        list of strings excluded_paths
+        """
         if path is None:
             return True
 
@@ -23,8 +26,14 @@ class Auth:
         return True
 
     def authorization_header(self, request=None) -> str:
-        """returns None - request"""
-        return None
+        """Gets the authorization header"""
+        if request is None:
+            return None
+
+        if not request.headers.get('Authorization'):
+            return None
+
+        return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> TypeVar('User'):
         """returns None - request"""
