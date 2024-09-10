@@ -3,7 +3,7 @@ import bcrypt
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
-from typing import Optional
+from typing import Union
 
 
 def _hash_password(password: str) -> bytes:
@@ -21,7 +21,7 @@ class Auth:
         """init"""
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> Optional[User]:
+    def register_user(self, email: str, password: str) -> Union[None, User]:
         """Register user"""
         try:
             self._db.find_user_by(email=email)
